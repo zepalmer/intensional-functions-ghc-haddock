@@ -217,6 +217,7 @@ classify tok =
     ITprimcallconv         -> TkKeyword
     ITjavascriptcallconv   -> TkKeyword
     ITmdo               {} -> TkKeyword
+    ITintensional          -> TkKeyword
     ITfamily               -> TkKeyword
     ITrole                 -> TkKeyword
     ITgroup                -> TkKeyword
@@ -263,9 +264,13 @@ classify tok =
     ITequal                -> TkGlyph
     ITlam                  -> TkGlyph
     ITlcase                -> TkGlyph
+    ITbackslashpct         -> TkGlyph
+    ITbackslashpctpct      -> TkGlyph
     ITvbar                 -> TkGlyph
     ITlarrow            {} -> TkGlyph
     ITrarrow            {} -> TkGlyph
+    ITrarrowpct            -> TkGlyph
+    ITrarrowpctpct         -> TkGlyph
     ITlolly             {} -> TkGlyph
     ITat                   -> TkGlyph
     ITtilde                -> TkGlyph
