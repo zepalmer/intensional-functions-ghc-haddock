@@ -1251,7 +1251,22 @@ ppr_mono_ty (HsFunTy _ mult ty1 ty2) u q e =
                  HsLinearArrow _ _ -> lollipop u
                  HsUnrestrictedArrow _ -> arrow u
                  HsExplicitMult _ _ m -> multAnnotation <> ppr_mono_lty m u q e <+> arrow u
-
+ppr_mono_ty (HsItsCurFunTy _ mult tyCfn tyIn tyOut) u q e =
+  hsep [ ppr_mono_lty tyIn u q HideEmptyContexts
+       , arr <> ppr_mono_lty tyCfn u q e <+> ppr_mono_lty tyOut u q e
+       ]
+   where arr = case mult of
+                 HsLinearArrow _ _ -> error "panic: intensional function with linear arrow"
+                 HsUnrestrictedArrow _ -> toHtml "->%"
+                 HsExplicitMult _ _ _ -> error "panic: intensional function with explicit multiplicity"
+ppr_mono_ty (HsItsUncFunTy _ mult tyCfn tyIn tyOut) u q e =
+  hsep [ ppr_mono_lty tyIn u q HideEmptyContexts
+       , arr <> ppr_mono_lty tyCfn u q e <+> ppr_mono_lty tyOut u q e
+       ]
+   where arr = case mult of
+                 HsLinearArrow _ _ -> error "panic: intensional function with linear arrow"
+                 HsUnrestrictedArrow _ -> toHtml "->%%"
+                 HsExplicitMult _ _ _ -> error "panic: intensional function with explicit multiplicity"
 ppr_mono_ty (HsTupleTy _ con tys) u q _ =
   tupleParens con (map (ppLType u q HideEmptyContexts) tys)
 ppr_mono_ty (HsSumTy _ tys) u q _ =
